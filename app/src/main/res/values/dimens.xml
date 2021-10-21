@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="image_size">40dp</dimen>
+    <dimen name="margin_normal">16dp</dimen>
+    <dimen name="margin_half">8dp</dimen>
+    <dimen name="margin_quoter">4dp</dimen>
+    <dimen name="text_size_primary">15sp</dimen>
+    <dimen name="text_size_secondary">13sp</dimen>
+    <dimen name="expanded_toolbar_height">250dp</dimen>
+</resources>
