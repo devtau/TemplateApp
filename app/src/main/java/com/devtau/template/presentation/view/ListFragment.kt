@@ -86,8 +86,8 @@ class ListFragment: BaseFragment() {
             _viewModel.onFavoritesFilterClicked()
             return@setOnMenuItemClickListener true
         }
-        _viewModel.favoritesFilterIcon.observe(viewLifecycleOwner, {
+        _viewModel.favoritesFilterIcon.observe(viewLifecycleOwner) {
             if (it != null) item.icon = it
-        })
+        }
     }
 }

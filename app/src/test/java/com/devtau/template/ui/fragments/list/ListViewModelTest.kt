@@ -10,6 +10,8 @@ import com.devtau.template.data.source.FakePreferencesManager
 import com.devtau.template.data.source.local.PreferencesManager
 import com.devtau.template.data.source.repositories.ApplesRepository
 import com.devtau.template.getOrAwaitValue
+import com.devtau.template.presentation.FakeResourceResolver
+import com.devtau.template.presentation.ResourceResolver
 import com.devtau.template.presentation.viewmodels.ListViewModel
 import com.devtau.template.utils.Event
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -31,6 +33,7 @@ class ListViewModelTest {
     private val fakeRemoteDataSource: BaseDataSource<Apple> = FakeApplesDataSource(fakeRemoteList)
     private lateinit var fakeRepository: ApplesRepository
     private lateinit var fakePrefs: PreferencesManager
+    private lateinit var resourceResolver: ResourceResolver
 
     // Set the main coroutines dispatcher for unit testing.
     @ExperimentalCoroutinesApi
@@ -42,15 +45,16 @@ class ListViewModelTest {
     var instantExecutorRule = InstantTaskExecutorRule()
 
     @Before
-    fun setupViewModel() {
+    fun setup() {
         fakeRepository = ApplesRepository(fakeLocalDataSource, fakeRemoteDataSource)
         fakePrefs = FakePreferencesManager
+        resourceResolver = FakeResourceResolver
     }
 
     @Test
     fun getProgress() {
         //Given a fresh ViewModel
-        val viewModel = ListViewModel(fakeRepository, fakePrefs)
+        val viewModel = newListViewModel()
 
         //When showing progress
         viewModel.progress.value = true
@@ -63,7 +67,7 @@ class ListViewModelTest {
     @Test
     fun getError() {
         //Given a fresh ViewModel
-        val viewModel = ListViewModel(fakeRepository, fakePrefs)
+        val viewModel = newListViewModel()
 
         //When showing error
         viewModel.error.value = Event(R.string.error)
@@ -77,7 +81,7 @@ class ListViewModelTest {
     @Test
     fun getTeams() {
         //Given a fresh ViewModel
-        val viewModel = ListViewModel(fakeRepository, fakePrefs)
+        val viewModel = newListViewModel()
 
         //When observing teams LiveData
         fakeRepository.observeList()
@@ -90,7 +94,7 @@ class ListViewModelTest {
     @Test
     fun getOpenTeamDetailsEvent() {
         //Given a fresh ViewModel
-        val viewModel = ListViewModel(fakeRepository, fakePrefs)
+        val viewModel = newListViewModel()
 
         //When opening team details
         viewModel.openAppleDetailsEvent.value = Event(Apple.getMock())
@@ -104,7 +108,7 @@ class ListViewModelTest {
     @Test
     fun openTeam() {
         //Given a fresh ViewModel
-        val viewModel = ListViewModel(fakeRepository, fakePrefs)
+        val viewModel = newListViewModel()
 
         //When opening team details
         viewModel.openApple(Apple.getMock())
@@ -125,7 +129,7 @@ class ListViewModelTest {
         fakePrefs.lastSyncDate = Calendar.getInstance().timeInMillis
 
         //Then after ViewModel is created
-        val viewModel = ListViewModel(fakeRepository, fakePrefs)
+        val viewModel = newListViewModel()
 
         //Content of lists is not synchronised
         assertEquals(4, fakeLocalList.size)
@@ -142,4 +146,6 @@ class ListViewModelTest {
         assertEquals(5, fakeLocalList.size)
         assertEquals(5, fakeRemoteList.size)
     }
+
+    private fun newListViewModel() = ListViewModel(fakeRepository, fakePrefs, resourceResolver)
 }

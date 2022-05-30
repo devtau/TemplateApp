@@ -42,21 +42,21 @@ data class Apple(
          * Provides mock list of apples imitating local data source
          */
         fun getMockLocalList() = mutableListOf(
-            Apple(null, "https://picsum.photos/300/900", "first mock title", "first mock subtitle"),
-            Apple(null, "https://picsum.photos/301/900", "second mock title", "second mock subtitle"),
-            Apple(null, "https://picsum.photos/302/900", "third mock title", "third mock subtitle"),
-            Apple(null, "https://picsum.photos/303/900", "fourth mock title", "fourth mock subtitle")
+            Apple(null, "https://picsum.photos/300/900", "first mock apple title", "first mock apple subtitle"),
+            Apple(null, "https://picsum.photos/301/900", "second mock apple title", "second mock apple subtitle"),
+            Apple(null, "https://picsum.photos/302/900", "third mock apple title", "third mock apple subtitle"),
+            Apple(null, "https://picsum.photos/303/900", "fourth mock apple title", "fourth mock apple subtitle")
         )
 
         /**
          * Provides mock list of apples imitating remote data source
          */
         fun getMockRemoteList() = mutableListOf(
-            Apple(null, "https://picsum.photos/300/900", "first mock title", "first mock subtitle"),
-            Apple(null, "https://picsum.photos/301/900", "second mock title", "second mock subtitle"),
-            Apple(null, "https://picsum.photos/302/900", "third mock title", "third mock subtitle"),
-            Apple(null, "https://picsum.photos/303/900", "fourth mock title", "fourth mock subtitle"),
-            Apple(null, "https://picsum.photos/304/900", "fifth mock title", "fifth mock subtitle")
+            Apple(null, "https://picsum.photos/300/900", "first mock apple title", "first mock apple subtitle"),
+            Apple(null, "https://picsum.photos/301/900", "second mock apple title", "second mock apple subtitle"),
+            Apple(null, "https://picsum.photos/302/900", "third mock apple title", "third mock apple subtitle"),
+            Apple(null, "https://picsum.photos/303/900", "fourth mock apple title", "fourth mock apple subtitle"),
+            Apple(null, "https://picsum.photos/304/900", "fifth mock apple title", "fifth mock apple subtitle")
         )
     }
 }

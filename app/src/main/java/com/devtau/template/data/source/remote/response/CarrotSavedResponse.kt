@@ -7,8 +7,8 @@ import com.devtau.template.data.model.Carrot
  */
 class CarrotSavedResponse: BaseResponse() {
 
-    val carrot: Carrot? get() = data?.Carrot
+    val carrot: Carrot? get() = data?.carrot
     private val data: Data? = null
 
-    private class Data(val Carrot: Carrot? = null)
+    private class Data(val carrot: Carrot? = null)
 }

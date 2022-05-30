@@ -3,11 +3,10 @@ package com.devtau.template.data.source.repositories
 import com.devtau.template.data.Result
 import com.devtau.template.data.Result.Error
 import com.devtau.template.data.Result.Success
+import com.devtau.template.data.Result.Loading
 import com.devtau.template.data.model.Apple
 import com.devtau.template.data.source.local.apples.ApplesLocalDataSource
 import com.devtau.template.data.source.remote.apples.ApplesRemoteDataSource
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -31,6 +30,7 @@ class ApplesRepository @Inject constructor(
 //                remote.saveItem(item)
             }
             is Error -> throw localId.exception!!
+            is Loading -> { /*NOP*/ }
         }
         return localId
     }
@@ -40,24 +40,25 @@ class ApplesRepository @Inject constructor(
     override fun observeItem(id: Long) = local.observeItem(id)
 
     override suspend fun deleteItem(item: Apple) {
-        coroutineScope {
-            launch { local.deleteItem(item) }
-            //TODO: uncomment after server setup
-//            launch { remote?.deleteItem(item) }
-        }
+        local.deleteItem(item)
+        //TODO: uncomment after server setup
+//        remote.deleteItem(item)
     }
 
     override suspend fun fetchItemsFromBackend() {
+        //TODO: replace after server setup
         if ((local.getList() as? Success)?.data?.isEmpty() == true) {
             local.saveList(Apple.getMockLocalList())
         }
 
+        //TODO: uncomment after server setup
 //        when (val remoteList = remote.getList()) {
 //            is Success -> {
 //                local.deleteAll()
 //                local.saveList(remoteList.data)
 //            }
 //            is Error -> throw remoteList.exception!!
+//            is Loading -> { /*NOP*/ }
 //        }
     }
 
@@ -65,16 +66,15 @@ class ApplesRepository @Inject constructor(
         when (val remoteItem = remote.getItem(id)) {
             is Success -> local.saveItem(remoteItem.data)
             is Error -> throw remoteItem.exception!!
+            is Loading -> { /*NOP*/ }
         }
     }
 
     override suspend fun saveList(list: List<Apple>) {
         Timber.d("saveList size=${list.size}")
-        coroutineScope {
-            launch { local.saveList(list) }
-            //TODO: uncomment after server setup
-//                launch { remote?.saveList(list) }
-        }
+        local.saveList(list)
+        //TODO: uncomment after server setup
+//        remote.saveList(list)
     }
 
     override suspend fun getList(): Result<List<Apple>> = local.getList()
@@ -82,10 +82,8 @@ class ApplesRepository @Inject constructor(
     override fun observeList() = local.observeList()
 
     override suspend fun deleteAll() {
-        coroutineScope {
-            launch { local.deleteAll() }
-            //TODO: uncomment after server setup
-//            launch { remote?.deleteAll() }
-        }
+        local.deleteAll()
+        //TODO: uncomment after server setup
+//        remote.deleteAll()
     }
 }
